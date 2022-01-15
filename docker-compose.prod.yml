@@ -1,4 +1,4 @@
-version: "3"
+version: "3.7"
 services:
   server:
     build:
@@ -6,8 +6,6 @@ services:
       dockerfile: Dockerfile.prod
     ports:
       - 3001:3001
-    networks:
-      - mern-network
     restart: unless-stopped
   client:
     build: 
@@ -15,11 +13,6 @@ services:
       dockerfile: Dockerfile.prod
     ports:
       - "80:80"
-    networks:
-      - mern-network
     depends_on:
       - server
     restart: unless-stopped
-networks:
-  mern-network:
-    driver: bridge
