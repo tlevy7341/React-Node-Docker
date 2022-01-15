@@ -1,17 +1,19 @@
-import express, {Application, Request, Response, NextFunction } from 'express';
+import http from 'http';
+import express, { Express } from 'express';
 const cors = require('cors');
+import { routes } from './routes/route';
+const router: Express = express();
+const httpServer = http.createServer(router)
+const helmet = require('helmet')
 
-const app: Application = express();
-app.use(express.json());
-app.use(cors());
+router.use(express.json());
+router.use(express.urlencoded({ extended: false }));
+router.use(helmet());
+router.use(cors());
+
+router.use(routes);
+
 const PORT: string = '3001'
-
-
-
-app.get('/', (req: Request, res: Response) => {
-    res.send({message: 'Hello World'});
-})
-
-app.listen(PORT, ()=> {
+httpServer.listen(PORT, ()=> {
     console.log(`server running at http://localhost:${PORT}`);
 })
